@@ -14,7 +14,7 @@ type (
 	client struct {
 		endpoint       string
 		token          string
-		clientFn       ClientFn
+		newHTTPClient  NewHTTPClient
 		isError        IsError
 		parseResp      ParseResp
 		parseErrorResp ParseErrorResp
@@ -67,15 +67,15 @@ type (
 		DeleteUserResp(ctx context.Context, id string) (*http.Response, error)
 		DeleteUser(ctx context.Context, id string) (*http.Response, error)
 
-		WithClientFn(ClientFn) Client
+		WithNewHTTPClient(NewHTTPClient) Client
 		WithParseResp(ParseResp) Client
 		WithParseErrorResp(ParseErrorResp) Client
 		WithIsError(IsError) Client
 		WithEndpoint(endpoint string) Client
 	}
 
-	// ClientFn returns a new http.Client .
-	ClientFn func() (*http.Client, error)
+	// NewHTTPClient returns a new http.Client .
+	NewHTTPClient func() (*http.Client, error)
 	// ParseResp parses a succeeded API response.
 	ParseResp func(resp *http.Response, output interface{}) error
 	// ParseErrorResp parses an API error response.
@@ -85,18 +85,18 @@ type (
 )
 
 var (
-	defaultEndpoint = "https://api.slack.com/scim/v1"
+	DefaultEndpoint = "https://api.slack.com/scim/v1"
 )
 
 // NewClient returns a new client.
 func NewClient(token string) Client {
 	return &client{
 		token:          token,
-		endpoint:       defaultEndpoint,
-		clientFn:       clientFn,
-		isError:        isError,
-		parseResp:      parseResp,
-		parseErrorResp: parseErrorResp,
+		endpoint:       DefaultEndpoint,
+		newHTTPClient:  NewHTTPClientDefault,
+		isError:        IsErrorDefault,
+		parseResp:      ParseRespDefault,
+		parseErrorResp: ParseErrorRespDefault,
 	}
 }
 
@@ -126,7 +126,7 @@ func (c *client) getResp(
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token))
 	req.Header.Add("Content-Type", "application/json")
 	req = req.WithContext(ctx)
-	client, err := c.clientFn()
+	client, err := c.newHTTPClient()
 	if err != nil {
 		return nil, err
 	}

@@ -4,7 +4,7 @@ func (c *client) copy() *client {
 	return &client{
 		endpoint:       c.endpoint,
 		token:          c.token,
-		clientFn:       c.clientFn,
+		newHTTPClient:  c.newHTTPClient,
 		isError:        c.isError,
 		parseResp:      c.parseResp,
 		parseErrorResp: c.parseErrorResp,
@@ -12,19 +12,19 @@ func (c *client) copy() *client {
 }
 
 // WithClientFn returns a shallow copy of c with its clientFn changed to fn.
-func (c *client) WithClientFn(fn ClientFn) Client {
+func (c *client) WithNewHTTPClient(fn NewHTTPClient) Client {
 	if fn == nil {
-		fn = clientFn
+		fn = NewHTTPClientDefault
 	}
 	cl := c.copy()
-	cl.clientFn = fn
+	cl.newHTTPClient = fn
 	return cl
 }
 
 // WithParseResp returns a shallow copy of c with its parseResp changed to fn.
 func (c *client) WithParseResp(fn ParseResp) Client {
 	if fn == nil {
-		fn = parseResp
+		fn = ParseRespDefault
 	}
 	cl := c.copy()
 	cl.parseResp = fn
@@ -34,7 +34,7 @@ func (c *client) WithParseResp(fn ParseResp) Client {
 // WithParseErrorResp returns a shallow copy of c with its parseErrorResp changed to fn.
 func (c *client) WithParseErrorResp(fn ParseErrorResp) Client {
 	if fn == nil {
-		fn = parseErrorResp
+		fn = ParseErrorRespDefault
 	}
 	cl := c.copy()
 	cl.parseErrorResp = fn
@@ -44,7 +44,7 @@ func (c *client) WithParseErrorResp(fn ParseErrorResp) Client {
 // WithIsError returns a shallow copy of c with its isError changed to fn.
 func (c *client) WithIsError(fn IsError) Client {
 	if fn == nil {
-		fn = isError
+		fn = IsErrorDefault
 	}
 	cl := c.copy()
 	cl.isError = fn
@@ -54,7 +54,7 @@ func (c *client) WithIsError(fn IsError) Client {
 // WithEndpoint returns a shallow copy of c with its endpoint changed to endpoint.
 func (c *client) WithEndpoint(endpoint string) Client {
 	if endpoint == "" {
-		endpoint = defaultEndpoint
+		endpoint = DefaultEndpoint
 	}
 	cl := c.copy()
 	cl.endpoint = endpoint

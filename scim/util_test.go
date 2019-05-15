@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_isError(t *testing.T) {
+func TestIsErrorDefault(t *testing.T) {
 	data := []struct {
 		StatusCode int
 		isError    bool
@@ -31,15 +31,15 @@ func Test_isError(t *testing.T) {
 	}
 	for _, d := range data {
 		if d.isError {
-			require.True(t, isError(&http.Response{StatusCode: d.StatusCode}))
+			require.True(t, IsErrorDefault(&http.Response{StatusCode: d.StatusCode}))
 		} else {
-			require.False(t, isError(&http.Response{StatusCode: d.StatusCode}))
+			require.False(t, IsErrorDefault(&http.Response{StatusCode: d.StatusCode}))
 		}
 	}
 }
 
-func Test_clientFn(t *testing.T) {
-	c, err := clientFn()
+func TestNewHTTPClientDefault(t *testing.T) {
+	c, err := NewHTTPClientDefault()
 	require.NotNil(t, c)
 	require.Nil(t, err)
 }
