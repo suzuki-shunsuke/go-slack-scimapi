@@ -11,7 +11,7 @@ func (c *client) copy() *client {
 	}
 }
 
-// WithClientFn returns a shallow copy of c with its clientFn changed to fn.
+// WithNewHTTPClient returns a shallow copy of c with its nweHTTPClient changed to fn.
 func (c *client) WithNewHTTPClient(fn NewHTTPClient) Client {
 	if fn == nil {
 		fn = NewHTTPClientDefault

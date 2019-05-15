@@ -72,6 +72,12 @@ type (
 		WithParseErrorResp(ParseErrorResp) Client
 		WithIsError(IsError) Client
 		WithEndpoint(endpoint string) Client
+
+		SetNewHTTPClient(NewHTTPClient)
+		SetParseResp(ParseResp)
+		SetParseErrorResp(ParseErrorResp)
+		SetIsError(IsError)
+		SetEndpoint(endpoint string)
 	}
 
 	// NewHTTPClient returns a new http.Client .
