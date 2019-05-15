@@ -41,7 +41,7 @@ type (
 		PatchGroup(ctx context.Context, id string, group *Group) (*http.Response, error)
 
 		PutGroupResp(ctx context.Context, id string, group *Group) (*http.Response, error)
-		PutGroup(ctx context.Context, group *Group, id string) (*http.Response, error)
+		PutGroup(ctx context.Context, id string, group *Group) (*http.Response, error)
 
 		DeleteGroupResp(ctx context.Context, id string) (*http.Response, error)
 		DeleteGroup(ctx context.Context, id string) (*http.Response, error)
@@ -62,7 +62,7 @@ type (
 		PatchUser(ctx context.Context, id string, user *UserPatch) (*http.Response, error)
 
 		PutUserResp(ctx context.Context, id string, user *User) (*http.Response, error)
-		PutUser(ctx context.Context, user *User, id string) (*http.Response, error)
+		PutUser(ctx context.Context, id string, user *User) (*http.Response, error)
 
 		DeleteUserResp(ctx context.Context, id string) (*http.Response, error)
 		DeleteUser(ctx context.Context, id string) (*http.Response, error)

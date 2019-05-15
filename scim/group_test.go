@@ -10,6 +10,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const (
+	dummyID = "XXXX"
+)
+
 var (
 	testGroup = Group{
 		Schemas: []string{
@@ -115,7 +119,7 @@ func Test_clientGetGroup(t *testing.T) {
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := "XXXX"
+	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
 			Get(fmt.Sprintf("/scim/v1/Groups/%s", id)).
@@ -151,12 +155,110 @@ func Test_clientDeleteGroup(t *testing.T) {
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := "XXXX"
+	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
 			Delete(fmt.Sprintf("/scim/v1/Groups/%s", id)).
 			MatchType("json").Reply(d.statusCode)
 		resp, err := client.DeleteGroup(ctx, id)
+		if d.isError {
+			require.NotNil(t, err)
+			return
+		}
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		require.Equal(t, d.statusCode, resp.StatusCode)
+	}
+}
+
+func Test_clientCreateGroup(t *testing.T) {
+	defer gock.Off()
+
+	data := []struct {
+		statusCode int
+		isError    bool
+		group      Group
+	}{
+		{
+			statusCode: 201,
+			isError:    false,
+			group:      Group{},
+		},
+	}
+
+	ctx := context.Background()
+	client := NewClient("XXX")
+	for _, d := range data {
+		gock.New("https://api.slack.com").
+			Post("/scim/v1/Groups").
+			MatchType("json").JSON(d.group).Reply(d.statusCode)
+		resp, err := client.CreateGroup(ctx, &d.group)
+		if d.isError {
+			require.NotNil(t, err)
+			return
+		}
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		require.Equal(t, d.statusCode, resp.StatusCode)
+	}
+}
+
+func Test_clientPutGroup(t *testing.T) {
+	defer gock.Off()
+
+	data := []struct {
+		statusCode int
+		isError    bool
+		group      Group
+	}{
+		{
+			statusCode: 200,
+			isError:    false,
+			group:      Group{},
+		},
+	}
+
+	ctx := context.Background()
+	client := NewClient("XXX")
+	id := dummyID
+	for _, d := range data {
+		gock.New("https://api.slack.com").
+			Put(fmt.Sprintf("/scim/v1/Groups/%s", id)).
+			MatchType("json").JSON(d.group).Reply(d.statusCode)
+		resp, err := client.PutGroup(ctx, id, &d.group)
+		if d.isError {
+			require.NotNil(t, err)
+			return
+		}
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		require.Equal(t, d.statusCode, resp.StatusCode)
+	}
+}
+
+func Test_clientPatchGroup(t *testing.T) {
+	defer gock.Off()
+
+	data := []struct {
+		statusCode int
+		isError    bool
+		group      Group
+	}{
+		{
+			statusCode: 200,
+			isError:    false,
+			group:      Group{},
+		},
+	}
+
+	ctx := context.Background()
+	client := NewClient("XXX")
+	id := dummyID
+	for _, d := range data {
+		gock.New("https://api.slack.com").
+			Patch(fmt.Sprintf("/scim/v1/Groups/%s", id)).
+			MatchType("json").JSON(d.group).Reply(d.statusCode)
+		resp, err := client.PatchGroup(ctx, id, &d.group)
 		if d.isError {
 			require.NotNil(t, err)
 			return

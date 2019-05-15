@@ -135,7 +135,7 @@ func (c *client) PutGroupResp(ctx context.Context, id string, group *Group) (*ht
 }
 
 // PutGroup sends PUT a group API.
-func (c *client) PutGroup(ctx context.Context, group *Group, id string) (*http.Response, error) {
+func (c *client) PutGroup(ctx context.Context, id string, group *Group) (*http.Response, error) {
 	// PUT /Groups/{id}
 	resp, err := c.PutGroupResp(ctx, id, group)
 	if err != nil {

@@ -210,7 +210,7 @@ func (c *client) PutUserResp(ctx context.Context, id string, user *User) (*http.
 }
 
 // PutUser sends PUT a user API.
-func (c *client) PutUser(ctx context.Context, user *User, id string) (*http.Response, error) {
+func (c *client) PutUser(ctx context.Context, id string, user *User) (*http.Response, error) {
 	// PUT /Users/{id}
 	resp, err := c.PutUserResp(ctx, id, user)
 	if err != nil {
