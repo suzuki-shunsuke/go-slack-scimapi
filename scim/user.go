@@ -104,6 +104,11 @@ type (
 		Schemas      []string `json:"schemas"`
 		Resources    []User
 	}
+
+	userGroup struct {
+		Value   string `json:"value"`
+		Display string `json:"display"`
+	}
 )
 
 // GetUsersResp sends GET users API and returns an HTTP response.
@@ -164,14 +169,15 @@ func (c *client) CreateUserResp(ctx context.Context, user *User) (*http.Response
 }
 
 // CreateUser sends POST a user API.
-func (c *client) CreateUser(ctx context.Context, user *User) (*http.Response, error) {
+func (c *client) CreateUser(ctx context.Context, user *User) (*User, *http.Response, error) {
 	// POST /Users
 	resp, err := c.CreateUserResp(ctx, user)
 	if err != nil {
-		return resp, err
+		return nil, resp, err
 	}
 	defer resp.Body.Close()
-	return resp, c.parseResponse(resp, nil)
+	u := &User{}
+	return u, resp, c.parseResponse(resp, u)
 }
 
 // PatchUserResp sends PATCH a user API and returns an HTTP response.
@@ -255,10 +261,7 @@ func (user *User) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 
-	list := []struct {
-		Value   string `json:"value"`
-		Display string `json:"display"`
-	}{}
+	list := []userGroup{}
 	if err := json.Unmarshal(a.Groups, &list); err != nil {
 		return err
 	}
@@ -271,4 +274,23 @@ func (user *User) UnmarshalJSON(b []byte) error {
 	}
 	user.Groups = groups
 	return nil
+}
+
+func (user *User) MarshalJSON() ([]byte, error) {
+	list := make([]userGroup, len(user.Groups))
+	for i, group := range user.Groups {
+		list[i] = userGroup{
+			Value:   group.ID,
+			Display: group.DisplayName,
+		}
+	}
+	type alias User
+	a := struct {
+		Groups []userGroup `json:"groups"`
+		*alias
+	}{
+		Groups: list,
+		alias:  (*alias)(user),
+	}
+	return json.Marshal(a)
 }

@@ -289,11 +289,13 @@ func Test_clientCreateUser(t *testing.T) {
 		statusCode int
 		isError    bool
 		user       *User
+		resp       *User
 	}{
 		{
 			statusCode: 201,
 			isError:    false,
 			user:       &User{},
+			resp:       &testUser,
 		},
 		{
 			statusCode: 201,
@@ -307,8 +309,9 @@ func Test_clientCreateUser(t *testing.T) {
 	for _, d := range data {
 		gock.New("https://api.slack.com").
 			Post("/scim/v1/Users").
-			MatchType("json").JSON(d.user).Reply(d.statusCode)
-		resp, err := client.CreateUser(ctx, d.user)
+			MatchType("json").JSON(d.user).Reply(d.statusCode).JSON(d.resp)
+		user, resp, err := client.CreateUser(ctx, d.user)
+		gock.Off()
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -316,6 +319,9 @@ func Test_clientCreateUser(t *testing.T) {
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, d.statusCode, resp.StatusCode)
+		if d.resp != nil {
+			require.Equal(t, d.resp, user)
+		}
 	}
 }
 

@@ -56,7 +56,7 @@ type (
 		GetUser(ctx context.Context, id string) (*User, *http.Response, error)
 
 		CreateUserResp(context.Context, *User) (*http.Response, error)
-		CreateUser(context.Context, *User) (*http.Response, error)
+		CreateUser(context.Context, *User) (*User, *http.Response, error)
 
 		PatchUserResp(ctx context.Context, id string, user *UserPatch) (*http.Response, error)
 		PatchUser(ctx context.Context, id string, user *UserPatch) (*http.Response, error)
