@@ -38,10 +38,13 @@ users, resp, err := client.GetUsers(ctx, nil, `email eq "foo@example.com"`)
 
 ### Customize response handling
 
-You can customize client's behavior with methods `Client.WithXXX`.
+You can customize client's behavior with methods `Client.WithXXX` and `Client.SetXXX` .
+`Client.SetXXX` changes the receiver itself.
+On the other hand, `Client.WithXXX` changes a shallow copy of client and returns it.
+`Client.WithXXX` is useful for the method chain.
 
 ```go
-client = client.WithParseResp(func(resp *http.Response, output interface{}) error {
+client.SetParseResp(func(resp *http.Response, output interface{}) error {
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
@@ -49,6 +52,13 @@ client = client.WithParseResp(func(resp *http.Response, output interface{}) erro
 	fmt.Println(string(b))
 	return json.Unmarshal(b, output)
 })
+```
+
+```go
+users, resp, err := client.WithParseErrorResp(func(resp *http.Response) error {
+	fmt.Println("customize")
+	return ParseErrorRespDefault(resp)
+}).GetUsers(ctx, nil, "")
 ```
 
 ### client.XXXResp
