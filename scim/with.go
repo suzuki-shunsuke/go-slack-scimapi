@@ -12,6 +12,7 @@ func (c *Client) copy() *Client {
 }
 
 // WithNewHTTPClient returns a shallow copy of c with its nweHTTPClient changed to fn.
+// If fn is nil, NewHTTPClientDefault is used.
 func (c *Client) WithNewHTTPClient(fn NewHTTPClient) *Client {
 	if fn == nil {
 		fn = NewHTTPClientDefault
@@ -22,6 +23,8 @@ func (c *Client) WithNewHTTPClient(fn NewHTTPClient) *Client {
 }
 
 // WithParseResp returns a shallow copy of c with its parseResp changed to fn.
+// fn shouldn't close the response body.
+// If fn is nil, ParseRespDefault is used.
 func (c *Client) WithParseResp(fn ParseResp) *Client {
 	if fn == nil {
 		fn = ParseRespDefault
@@ -32,6 +35,8 @@ func (c *Client) WithParseResp(fn ParseResp) *Client {
 }
 
 // WithParseErrorResp returns a shallow copy of c with its parseErrorResp changed to fn.
+// fn shouldn't close the response body.
+// If fn is nil, ParseErrorRespDefault is used.
 func (c *Client) WithParseErrorResp(fn ParseErrorResp) *Client {
 	if fn == nil {
 		fn = ParseErrorRespDefault
@@ -42,6 +47,7 @@ func (c *Client) WithParseErrorResp(fn ParseErrorResp) *Client {
 }
 
 // WithIsError returns a shallow copy of c with its isError changed to fn.
+// If fn is nil, IsErrorDefault is used.
 func (c *Client) WithIsError(fn IsError) *Client {
 	if fn == nil {
 		fn = IsErrorDefault
@@ -52,6 +58,7 @@ func (c *Client) WithIsError(fn IsError) *Client {
 }
 
 // WithEndpoint returns a shallow copy of c with its endpoint changed to endpoint.
+// If endpoint is empty, DefaultEndpoint is used.
 func (c *Client) WithEndpoint(endpoint string) *Client {
 	if endpoint == "" {
 		endpoint = DefaultEndpoint
