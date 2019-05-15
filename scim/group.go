@@ -112,7 +112,7 @@ func (c *client) PatchGroupResp(ctx context.Context, id string, group *Group) (*
 }
 
 // PatchGroup sends PATCH a group API.
-func (c *client) PatchGroup(ctx context.Context, group *Group, id string) (*http.Response, error) {
+func (c *client) PatchGroup(ctx context.Context, id string, group *Group) (*http.Response, error) {
 	// PATCH /Groups/{id}
 	resp, err := c.PatchGroupResp(ctx, id, group)
 	if err != nil {

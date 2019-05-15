@@ -78,13 +78,15 @@ type (
 
 	// Photo is a URL of a photo of a User.
 	Photo struct {
-		Value string `json:"value,omitempty"`
-		Type  string `json:"type,omitempty"`
+		Value   string `json:"value,omitempty"`
+		Type    string `json:"type,omitempty"`
+		Primary bool   `json:"primary,omitempty"`
 	}
 
 	// Role is a role for a user that collectively represent who the user is; e.g., 'Student', "Faculty".
 	Role struct {
 		Value   string `json:"value,omitempty"`
+		Type    string `json:"type,omitempty"`
 		Primary bool   `json:"primary,omitempty"`
 	}
 
@@ -173,7 +175,7 @@ func (c *client) CreateUser(ctx context.Context, user *User) (*http.Response, er
 }
 
 // PatchUserResp sends PATCH a user API and returns an HTTP response.
-func (c *client) PatchUserResp(ctx context.Context, id string, user *User) (*http.Response, error) {
+func (c *client) PatchUserResp(ctx context.Context, id string, user *UserPatch) (*http.Response, error) {
 	// PATCH /Users/{id}
 	if id == "" {
 		return nil, fmt.Errorf("id is required")
@@ -185,7 +187,7 @@ func (c *client) PatchUserResp(ctx context.Context, id string, user *User) (*htt
 }
 
 // PatchUser sends PATCH a user API.
-func (c *client) PatchUser(ctx context.Context, user *User, id string) (*http.Response, error) {
+func (c *client) PatchUser(ctx context.Context, id string, user *UserPatch) (*http.Response, error) {
 	// PATCH /Users/{id}
 	resp, err := c.PatchUserResp(ctx, id, user)
 	if err != nil {
