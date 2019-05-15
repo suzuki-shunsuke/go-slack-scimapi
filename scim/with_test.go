@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_client_copy(t *testing.T) {
-	c := &client{
+func TestClient_copy(t *testing.T) {
+	c := &Client{
 		endpoint: "endpoint",
 		token:    "token",
 	}
@@ -20,48 +20,43 @@ func Test_client_copy(t *testing.T) {
 	require.NotEqual(t, c2.token, c.token)
 }
 
-func Test_clientWithNewHTTPClient(t *testing.T) {
-	c := &client{}
+func TestClientWithNewHTTPClient(t *testing.T) {
+	c := &Client{}
 
 	c2 := c.WithNewHTTPClient(nil)
-	c3 := c2.(*client)
 	require.Nil(t, c.newHTTPClient)
-	require.NotNil(t, c3.newHTTPClient)
+	require.NotNil(t, c2.newHTTPClient)
 }
 
-func Test_clientWithParseResp(t *testing.T) {
-	c := &client{}
+func TestClientWithParseResp(t *testing.T) {
+	c := &Client{}
 
 	c2 := c.WithParseResp(nil)
-	c3 := c2.(*client)
 	require.Nil(t, c.parseResp)
-	require.NotNil(t, c3.parseResp)
+	require.NotNil(t, c2.parseResp)
 }
 
-func Test_clientWithParseErrorResp(t *testing.T) {
-	c := &client{}
+func TestClientWithParseErrorResp(t *testing.T) {
+	c := &Client{}
 
 	c2 := c.WithParseErrorResp(nil)
-	c3 := c2.(*client)
 	require.Nil(t, c.parseErrorResp)
-	require.NotNil(t, c3.parseErrorResp)
+	require.NotNil(t, c2.parseErrorResp)
 }
 
-func Test_clientWithIsError(t *testing.T) {
-	c := &client{}
+func TestClientWithIsError(t *testing.T) {
+	c := &Client{}
 
 	c2 := c.WithIsError(nil)
-	c3 := c2.(*client)
 	require.Nil(t, c.isError)
-	require.NotNil(t, c3.isError)
+	require.NotNil(t, c2.isError)
 }
 
-func Test_clientWithEndpoint(t *testing.T) {
-	c := &client{}
+func TestClientWithEndpoint(t *testing.T) {
+	c := &Client{}
 
 	ep := "endpoint"
 	c2 := c.WithEndpoint(ep)
-	c3 := c2.(*client)
 	require.Equal(t, "", c.endpoint)
-	require.NotNil(t, ep, c3.endpoint)
+	require.NotNil(t, ep, c2.endpoint)
 }

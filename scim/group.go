@@ -37,7 +37,7 @@ type (
 // GetGroupsResp sends GET groups API and returns a HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) GetGroupsResp(ctx context.Context, page *Pagination, filter string) (*http.Response, error) {
+func (c *Client) GetGroupsResp(ctx context.Context, page *Pagination, filter string) (*http.Response, error) {
 	// GET /Groups
 	query := url.Values{}
 	if filter != "" {
@@ -49,7 +49,7 @@ func (c *client) GetGroupsResp(ctx context.Context, page *Pagination, filter str
 
 // GetGroups sends GET groups API and returns groups.
 // The returned response body is closed.
-func (c *client) GetGroups(
+func (c *Client) GetGroups(
 	ctx context.Context, page *Pagination, filter string,
 ) (*Groups, *http.Response, error) {
 	// GET /Groups
@@ -65,7 +65,7 @@ func (c *client) GetGroups(
 // GetGroupResp sends GET a group API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) GetGroupResp(ctx context.Context, id string) (*http.Response, error) {
+func (c *Client) GetGroupResp(ctx context.Context, id string) (*http.Response, error) {
 	// GET /Groups/{id}
 	if id == "" {
 		return nil, fmt.Errorf("id is required")
@@ -75,7 +75,7 @@ func (c *client) GetGroupResp(ctx context.Context, id string) (*http.Response, e
 
 // GetGroup sends GET a group API and returns a group.
 // The returned response body is closed.
-func (c *client) GetGroup(
+func (c *Client) GetGroup(
 	ctx context.Context, id string,
 ) (*Group, *http.Response, error) {
 	// GET /Groups/{id}
@@ -91,7 +91,7 @@ func (c *client) GetGroup(
 // CreateGroupResp sends POST a group API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) CreateGroupResp(ctx context.Context, group *Group) (*http.Response, error) {
+func (c *Client) CreateGroupResp(ctx context.Context, group *Group) (*http.Response, error) {
 	// POST /Groups
 	if group == nil {
 		return nil, fmt.Errorf("group is required")
@@ -101,7 +101,7 @@ func (c *client) CreateGroupResp(ctx context.Context, group *Group) (*http.Respo
 
 // CreateGroup sends POST a group API.
 // The returned response body is closed.
-func (c *client) CreateGroup(ctx context.Context, group *Group) (*http.Response, error) {
+func (c *Client) CreateGroup(ctx context.Context, group *Group) (*http.Response, error) {
 	// POST /Groups
 	resp, err := c.CreateGroupResp(ctx, group)
 	if err != nil {
@@ -114,7 +114,7 @@ func (c *client) CreateGroup(ctx context.Context, group *Group) (*http.Response,
 // PatchGroupResp sends PATCH a group API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) PatchGroupResp(ctx context.Context, id string, group *Group) (*http.Response, error) {
+func (c *Client) PatchGroupResp(ctx context.Context, id string, group *Group) (*http.Response, error) {
 	// PATCH /Groups/{id}
 	if id == "" {
 		return nil, fmt.Errorf("id is required")
@@ -127,7 +127,7 @@ func (c *client) PatchGroupResp(ctx context.Context, id string, group *Group) (*
 
 // PatchGroup sends PATCH a group API.
 // The returned response body is closed.
-func (c *client) PatchGroup(ctx context.Context, id string, group *Group) (*http.Response, error) {
+func (c *Client) PatchGroup(ctx context.Context, id string, group *Group) (*http.Response, error) {
 	// PATCH /Groups/{id}
 	resp, err := c.PatchGroupResp(ctx, id, group)
 	if err != nil {
@@ -140,7 +140,7 @@ func (c *client) PatchGroup(ctx context.Context, id string, group *Group) (*http
 // PutGroupResp sends PUT a group API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) PutGroupResp(ctx context.Context, id string, group *Group) (*http.Response, error) {
+func (c *Client) PutGroupResp(ctx context.Context, id string, group *Group) (*http.Response, error) {
 	// PUT /Groups/{id}
 	if id == "" {
 		return nil, fmt.Errorf("id is required")
@@ -153,7 +153,7 @@ func (c *client) PutGroupResp(ctx context.Context, id string, group *Group) (*ht
 
 // PutGroup sends PUT a group API.
 // The returned response body is closed.
-func (c *client) PutGroup(ctx context.Context, id string, group *Group) (*http.Response, error) {
+func (c *Client) PutGroup(ctx context.Context, id string, group *Group) (*http.Response, error) {
 	// PUT /Groups/{id}
 	resp, err := c.PutGroupResp(ctx, id, group)
 	if err != nil {
@@ -166,7 +166,7 @@ func (c *client) PutGroup(ctx context.Context, id string, group *Group) (*http.R
 // DeleteGroupResp sends DELETE a group API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) DeleteGroupResp(ctx context.Context, id string) (*http.Response, error) {
+func (c *Client) DeleteGroupResp(ctx context.Context, id string) (*http.Response, error) {
 	// DELETE /Groups/{id}
 	if id == "" {
 		return nil, fmt.Errorf("id is required")
@@ -176,7 +176,7 @@ func (c *client) DeleteGroupResp(ctx context.Context, id string) (*http.Response
 
 // DeleteGroup sends DELETE a group API.
 // The returned response body is closed.
-func (c *client) DeleteGroup(ctx context.Context, id string) (*http.Response, error) {
+func (c *Client) DeleteGroup(ctx context.Context, id string) (*http.Response, error) {
 	// DELETE /Groups/{id}
 	resp, err := c.DeleteGroupResp(ctx, id)
 	if err != nil {

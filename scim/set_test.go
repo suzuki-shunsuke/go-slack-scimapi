@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_clientSetNewHTTPClient(t *testing.T) {
-	c := &client{}
+func TestClientSetNewHTTPClient(t *testing.T) {
+	c := &Client{}
 
 	c.SetNewHTTPClient(nil)
 	require.NotNil(t, c.newHTTPClient)
@@ -16,8 +16,8 @@ func Test_clientSetNewHTTPClient(t *testing.T) {
 	require.NotNil(t, c.newHTTPClient)
 }
 
-func Test_clientSetParseResp(t *testing.T) {
-	c := &client{}
+func TestClientSetParseResp(t *testing.T) {
+	c := &Client{}
 
 	c.SetParseResp(nil)
 	require.NotNil(t, c.parseResp)
@@ -26,8 +26,8 @@ func Test_clientSetParseResp(t *testing.T) {
 	require.NotNil(t, c.parseResp)
 }
 
-func Test_clientSetParseErrorResp(t *testing.T) {
-	c := &client{}
+func TestClientSetParseErrorResp(t *testing.T) {
+	c := &Client{}
 
 	c.SetParseErrorResp(nil)
 	require.NotNil(t, c.parseErrorResp)
@@ -36,8 +36,8 @@ func Test_clientSetParseErrorResp(t *testing.T) {
 	require.NotNil(t, c.parseErrorResp)
 }
 
-func Test_clientSetIsError(t *testing.T) {
-	c := &client{}
+func TestClientSetIsError(t *testing.T) {
+	c := &Client{}
 
 	c.SetIsError(nil)
 	require.NotNil(t, c.isError)
@@ -46,8 +46,8 @@ func Test_clientSetIsError(t *testing.T) {
 	require.NotNil(t, c.isError)
 }
 
-func Test_clientSetEndpoint(t *testing.T) {
-	c := &client{}
+func TestClientSetEndpoint(t *testing.T) {
+	c := &Client{}
 
 	c.SetEndpoint("")
 	require.Equal(t, DefaultEndpoint, c.endpoint)

@@ -11,73 +11,15 @@ import (
 )
 
 type (
-	client struct {
+	// Client is a Slack SCIM API client.
+	// Client should be created by the function NewClient .
+	Client struct {
 		endpoint       string
 		token          string
 		newHTTPClient  NewHTTPClient
 		isError        IsError
 		parseResp      ParseResp
 		parseErrorResp ParseErrorResp
-	}
-
-	// Client is a Slack SCIM API client.
-	Client interface {
-		GetUserSchemaResp(ctx context.Context) (*http.Response, error)
-		GetUserSchema(ctx context.Context) (*Schema, *http.Response, error)
-
-		GetGroupSchemaResp(ctx context.Context) (*http.Response, error)
-		GetGroupSchema(ctx context.Context) (*Schema, *http.Response, error)
-
-		GetServiceProviderConfig(context.Context) (*ServiceProviderConfig, *http.Response, error)
-		GetServiceProviderConfigResp(context.Context) (*http.Response, error)
-
-		GetGroupResp(ctx context.Context, id string) (*http.Response, error)
-		GetGroup(ctx context.Context, id string) (*Group, *http.Response, error)
-
-		CreateGroupResp(context.Context, *Group) (*http.Response, error)
-		CreateGroup(context.Context, *Group) (*http.Response, error)
-
-		PatchGroupResp(ctx context.Context, id string, group *Group) (*http.Response, error)
-		PatchGroup(ctx context.Context, id string, group *Group) (*http.Response, error)
-
-		PutGroupResp(ctx context.Context, id string, group *Group) (*http.Response, error)
-		PutGroup(ctx context.Context, id string, group *Group) (*http.Response, error)
-
-		DeleteGroupResp(ctx context.Context, id string) (*http.Response, error)
-		DeleteGroup(ctx context.Context, id string) (*http.Response, error)
-
-		GetGroupsResp(ctx context.Context, page *Pagination, filter string) (*http.Response, error)
-		GetGroups(ctx context.Context, page *Pagination, filter string) (*Groups, *http.Response, error)
-
-		GetUsersResp(ctx context.Context, page *Pagination, filter string) (*http.Response, error)
-		GetUsers(ctx context.Context, page *Pagination, filter string) (*Users, *http.Response, error)
-
-		GetUserResp(ctx context.Context, id string) (*http.Response, error)
-		GetUser(ctx context.Context, id string) (*User, *http.Response, error)
-
-		CreateUserResp(context.Context, *User) (*http.Response, error)
-		CreateUser(context.Context, *User) (*User, *http.Response, error)
-
-		PatchUserResp(ctx context.Context, id string, user *UserPatch) (*http.Response, error)
-		PatchUser(ctx context.Context, id string, user *UserPatch) (*http.Response, error)
-
-		PutUserResp(ctx context.Context, id string, user *User) (*http.Response, error)
-		PutUser(ctx context.Context, id string, user *User) (*http.Response, error)
-
-		DeleteUserResp(ctx context.Context, id string) (*http.Response, error)
-		DeleteUser(ctx context.Context, id string) (*http.Response, error)
-
-		WithNewHTTPClient(NewHTTPClient) Client
-		WithParseResp(ParseResp) Client
-		WithParseErrorResp(ParseErrorResp) Client
-		WithIsError(IsError) Client
-		WithEndpoint(endpoint string) Client
-
-		SetNewHTTPClient(NewHTTPClient)
-		SetParseResp(ParseResp)
-		SetParseErrorResp(ParseErrorResp)
-		SetIsError(IsError)
-		SetEndpoint(endpoint string)
 	}
 
 	// NewHTTPClient returns a new http.Client .
@@ -96,8 +38,8 @@ var (
 )
 
 // NewClient returns a new client.
-func NewClient(token string) Client {
-	return &client{
+func NewClient(token string) *Client {
+	return &Client{
 		token:          token,
 		endpoint:       DefaultEndpoint,
 		newHTTPClient:  NewHTTPClientDefault,
@@ -107,7 +49,7 @@ func NewClient(token string) Client {
 	}
 }
 
-func (c *client) getResp(
+func (c *Client) getResp(
 	ctx context.Context, method, path string, body interface{}, query url.Values,
 ) (*http.Response, error) {
 	endpoint, err := url.Parse(c.endpoint)
@@ -140,7 +82,7 @@ func (c *client) getResp(
 	return client.Do(req)
 }
 
-func (c *client) parseResponse(
+func (c *Client) parseResponse(
 	resp *http.Response, output interface{},
 ) error {
 	if c.isError(resp) {

@@ -1,7 +1,7 @@
 package scim
 
 // SetNewHTTPClient sets fn to c.
-func (c *client) SetNewHTTPClient(fn NewHTTPClient) {
+func (c *Client) SetNewHTTPClient(fn NewHTTPClient) {
 	if fn == nil {
 		c.newHTTPClient = NewHTTPClientDefault
 		return
@@ -10,7 +10,7 @@ func (c *client) SetNewHTTPClient(fn NewHTTPClient) {
 }
 
 // SetParseResp sets fn to c.
-func (c *client) SetParseResp(fn ParseResp) {
+func (c *Client) SetParseResp(fn ParseResp) {
 	if fn == nil {
 		c.parseResp = ParseRespDefault
 		return
@@ -19,7 +19,7 @@ func (c *client) SetParseResp(fn ParseResp) {
 }
 
 // SetParseErrorResp sets fn to c.
-func (c *client) SetParseErrorResp(fn ParseErrorResp) {
+func (c *Client) SetParseErrorResp(fn ParseErrorResp) {
 	if fn == nil {
 		c.parseErrorResp = ParseErrorRespDefault
 		return
@@ -28,7 +28,7 @@ func (c *client) SetParseErrorResp(fn ParseErrorResp) {
 }
 
 // SetIsError sets fn to c.
-func (c *client) SetIsError(fn IsError) {
+func (c *Client) SetIsError(fn IsError) {
 	if fn == nil {
 		c.isError = IsErrorDefault
 		return
@@ -37,7 +37,7 @@ func (c *client) SetIsError(fn IsError) {
 }
 
 // SetEndpoint sets fn to c.
-func (c *client) SetEndpoint(endpoint string) {
+func (c *Client) SetEndpoint(endpoint string) {
 	if endpoint == "" {
 		c.endpoint = DefaultEndpoint
 		return

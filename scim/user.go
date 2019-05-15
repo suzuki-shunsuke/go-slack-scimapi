@@ -116,7 +116,7 @@ type (
 // GetUsersResp sends GET users API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) GetUsersResp(ctx context.Context, page *Pagination, filter string) (*http.Response, error) {
+func (c *Client) GetUsersResp(ctx context.Context, page *Pagination, filter string) (*http.Response, error) {
 	// GET /Users
 	query := url.Values{}
 	if filter != "" {
@@ -128,7 +128,7 @@ func (c *client) GetUsersResp(ctx context.Context, page *Pagination, filter stri
 
 // GetUsers sends GET users API and returns users.
 // The returned response body is closed.
-func (c *client) GetUsers(
+func (c *Client) GetUsers(
 	ctx context.Context, page *Pagination, filter string,
 ) (*Users, *http.Response, error) {
 	// GET /Users
@@ -144,7 +144,7 @@ func (c *client) GetUsers(
 // GetUserResp sends GET a user API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) GetUserResp(ctx context.Context, id string) (*http.Response, error) {
+func (c *Client) GetUserResp(ctx context.Context, id string) (*http.Response, error) {
 	// GET /Users/{id}
 	if id == "" {
 		return nil, fmt.Errorf("id is required")
@@ -154,7 +154,7 @@ func (c *client) GetUserResp(ctx context.Context, id string) (*http.Response, er
 
 // GetUser sends GET a user API and returns a user.
 // The returned response body is closed.
-func (c *client) GetUser(
+func (c *Client) GetUser(
 	ctx context.Context, id string,
 ) (*User, *http.Response, error) {
 	// GET /Users/{id}
@@ -170,7 +170,7 @@ func (c *client) GetUser(
 // CreateUserResp sends POST a user API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) CreateUserResp(ctx context.Context, user *User) (*http.Response, error) {
+func (c *Client) CreateUserResp(ctx context.Context, user *User) (*http.Response, error) {
 	// POST /Users
 	if user == nil {
 		return nil, fmt.Errorf("user is required")
@@ -180,7 +180,7 @@ func (c *client) CreateUserResp(ctx context.Context, user *User) (*http.Response
 
 // CreateUser sends POST a user API.
 // The returned response body is closed.
-func (c *client) CreateUser(ctx context.Context, user *User) (*User, *http.Response, error) {
+func (c *Client) CreateUser(ctx context.Context, user *User) (*User, *http.Response, error) {
 	// POST /Users
 	resp, err := c.CreateUserResp(ctx, user)
 	if err != nil {
@@ -194,7 +194,7 @@ func (c *client) CreateUser(ctx context.Context, user *User) (*User, *http.Respo
 // PatchUserResp sends PATCH a user API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) PatchUserResp(ctx context.Context, id string, user *UserPatch) (*http.Response, error) {
+func (c *Client) PatchUserResp(ctx context.Context, id string, user *UserPatch) (*http.Response, error) {
 	// PATCH /Users/{id}
 	if id == "" {
 		return nil, fmt.Errorf("id is required")
@@ -207,7 +207,7 @@ func (c *client) PatchUserResp(ctx context.Context, id string, user *UserPatch) 
 
 // PatchUser sends PATCH a user API.
 // The returned response body is closed.
-func (c *client) PatchUser(ctx context.Context, id string, user *UserPatch) (*http.Response, error) {
+func (c *Client) PatchUser(ctx context.Context, id string, user *UserPatch) (*http.Response, error) {
 	// PATCH /Users/{id}
 	resp, err := c.PatchUserResp(ctx, id, user)
 	if err != nil {
@@ -220,7 +220,7 @@ func (c *client) PatchUser(ctx context.Context, id string, user *UserPatch) (*ht
 // PutUserResp sends PUT a user API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) PutUserResp(ctx context.Context, id string, user *User) (*http.Response, error) {
+func (c *Client) PutUserResp(ctx context.Context, id string, user *User) (*http.Response, error) {
 	// PUT /Users/{id}
 	if id == "" {
 		return nil, fmt.Errorf("id is required")
@@ -233,7 +233,7 @@ func (c *client) PutUserResp(ctx context.Context, id string, user *User) (*http.
 
 // PutUser sends PUT a user API.
 // The returned response body is closed.
-func (c *client) PutUser(ctx context.Context, id string, user *User) (*http.Response, error) {
+func (c *Client) PutUser(ctx context.Context, id string, user *User) (*http.Response, error) {
 	// PUT /Users/{id}
 	resp, err := c.PutUserResp(ctx, id, user)
 	if err != nil {
@@ -246,7 +246,7 @@ func (c *client) PutUser(ctx context.Context, id string, user *User) (*http.Resp
 // DeleteUserResp sends DELETE a user API and returns an HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
-func (c *client) DeleteUserResp(ctx context.Context, id string) (*http.Response, error) {
+func (c *Client) DeleteUserResp(ctx context.Context, id string) (*http.Response, error) {
 	// DELETE /Users/{id}
 	if id == "" {
 		return nil, fmt.Errorf("id is required")
@@ -256,7 +256,7 @@ func (c *client) DeleteUserResp(ctx context.Context, id string) (*http.Response,
 
 // DeleteUser sends DELETE a user API.
 // The returned response body is closed.
-func (c *client) DeleteUser(ctx context.Context, id string) (*http.Response, error) {
+func (c *Client) DeleteUser(ctx context.Context, id string) (*http.Response, error) {
 	// DELETE /Users/{id}
 	resp, err := c.DeleteUserResp(ctx, id)
 	if err != nil {
