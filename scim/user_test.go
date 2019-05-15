@@ -219,7 +219,7 @@ func Test_clientGetUsers(t *testing.T) {
 			Get("/scim/v1/Users").
 			MatchType("json").Reply(d.statusCode).
 			BodyString(d.body)
-		users, resp, err := client.GetUsers(ctx, nil, "")
+		users, resp, err := client.GetUsers(ctx, nil, `email eq "some@example.com"`)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -240,26 +240,34 @@ func Test_clientGetUser(t *testing.T) {
 	data := []struct {
 		statusCode int
 		body       string
+		id         string
 		isError    bool
 		exp        *User
 	}{
 		{
 			statusCode: 200,
 			isError:    false,
+			id:         dummyID,
 			exp:        &testUser,
+			body:       testUserJSON,
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         "",
+			exp:        nil,
 			body:       testUserJSON,
 		},
 	}
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
-			Get(fmt.Sprintf("/scim/v1/Users/%s", id)).
+			Get(fmt.Sprintf("/scim/v1/Users/%s", dummyID)).
 			MatchType("json").Reply(d.statusCode).
 			BodyString(d.body)
-		user, resp, err := client.GetUser(ctx, id)
+		user, resp, err := client.GetUser(ctx, d.id)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -280,12 +288,17 @@ func Test_clientCreateUser(t *testing.T) {
 	data := []struct {
 		statusCode int
 		isError    bool
-		user       User
+		user       *User
 	}{
 		{
 			statusCode: 201,
 			isError:    false,
-			user:       User{},
+			user:       &User{},
+		},
+		{
+			statusCode: 201,
+			isError:    true,
+			user:       nil,
 		},
 	}
 
@@ -295,7 +308,7 @@ func Test_clientCreateUser(t *testing.T) {
 		gock.New("https://api.slack.com").
 			Post("/scim/v1/Users").
 			MatchType("json").JSON(d.user).Reply(d.statusCode)
-		resp, err := client.CreateUser(ctx, &d.user)
+		resp, err := client.CreateUser(ctx, d.user)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -312,23 +325,36 @@ func Test_clientPutUser(t *testing.T) {
 	data := []struct {
 		statusCode int
 		isError    bool
-		user       User
+		id         string
+		user       *User
 	}{
 		{
 			statusCode: 200,
 			isError:    false,
-			user:       User{},
+			id:         dummyID,
+			user:       &User{},
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         "",
+			user:       &User{},
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         dummyID,
+			user:       nil,
 		},
 	}
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
-			Put(fmt.Sprintf("/scim/v1/Users/%s", id)).
+			Put(fmt.Sprintf("/scim/v1/Users/%s", dummyID)).
 			MatchType("json").JSON(d.user).Reply(d.statusCode)
-		resp, err := client.PutUser(ctx, id, &d.user)
+		resp, err := client.PutUser(ctx, d.id, d.user)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -345,23 +371,36 @@ func Test_clientPatchUser(t *testing.T) {
 	data := []struct {
 		statusCode int
 		isError    bool
-		user       UserPatch
+		id         string
+		user       *UserPatch
 	}{
 		{
 			statusCode: 200,
 			isError:    false,
-			user:       UserPatch{},
+			id:         dummyID,
+			user:       &UserPatch{},
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         "",
+			user:       &UserPatch{},
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         dummyID,
+			user:       nil,
 		},
 	}
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
-			Patch(fmt.Sprintf("/scim/v1/Users/%s", id)).
+			Patch(fmt.Sprintf("/scim/v1/Users/%s", dummyID)).
 			MatchType("json").JSON(d.user).Reply(d.statusCode)
-		resp, err := client.PatchUser(ctx, id, &d.user)
+		resp, err := client.PatchUser(ctx, d.id, d.user)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -378,21 +417,27 @@ func Test_clientDeleteUser(t *testing.T) {
 	data := []struct {
 		statusCode int
 		isError    bool
+		id         string
 	}{
 		{
 			statusCode: 204,
 			isError:    false,
+			id:         dummyID,
+		},
+		{
+			statusCode: 204,
+			isError:    true,
+			id:         "",
 		},
 	}
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
-			Delete(fmt.Sprintf("/scim/v1/Users/%s", id)).
+			Delete(fmt.Sprintf("/scim/v1/Users/%s", dummyID)).
 			MatchType("json").Reply(d.statusCode)
-		resp, err := client.DeleteUser(ctx, id)
+		resp, err := client.DeleteUser(ctx, d.id)
 		if d.isError {
 			require.NotNil(t, err)
 			return

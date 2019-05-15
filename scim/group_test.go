@@ -106,26 +106,33 @@ func Test_clientGetGroup(t *testing.T) {
 	data := []struct {
 		statusCode int
 		body       string
+		id         string
 		isError    bool
 		exp        *Group
 	}{
 		{
 			statusCode: 200,
 			isError:    false,
+			id:         dummyID,
 			exp:        &testGroup,
+			body:       testGroupJSON,
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         "",
 			body:       testGroupJSON,
 		},
 	}
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
-			Get(fmt.Sprintf("/scim/v1/Groups/%s", id)).
+			Get(fmt.Sprintf("/scim/v1/Groups/%s", dummyID)).
 			MatchType("json").Reply(d.statusCode).
 			BodyString(d.body)
-		group, resp, err := client.GetGroup(ctx, id)
+		group, resp, err := client.GetGroup(ctx, d.id)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -146,21 +153,27 @@ func Test_clientDeleteGroup(t *testing.T) {
 	data := []struct {
 		statusCode int
 		isError    bool
+		id         string
 	}{
 		{
 			statusCode: 204,
 			isError:    false,
+			id:         dummyID,
+		},
+		{
+			statusCode: 204,
+			isError:    true,
+			id:         "",
 		},
 	}
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
-			Delete(fmt.Sprintf("/scim/v1/Groups/%s", id)).
+			Delete(fmt.Sprintf("/scim/v1/Groups/%s", dummyID)).
 			MatchType("json").Reply(d.statusCode)
-		resp, err := client.DeleteGroup(ctx, id)
+		resp, err := client.DeleteGroup(ctx, d.id)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -177,12 +190,17 @@ func Test_clientCreateGroup(t *testing.T) {
 	data := []struct {
 		statusCode int
 		isError    bool
-		group      Group
+		group      *Group
 	}{
 		{
 			statusCode: 201,
 			isError:    false,
-			group:      Group{},
+			group:      &Group{},
+		},
+		{
+			statusCode: 201,
+			isError:    true,
+			group:      nil,
 		},
 	}
 
@@ -192,7 +210,7 @@ func Test_clientCreateGroup(t *testing.T) {
 		gock.New("https://api.slack.com").
 			Post("/scim/v1/Groups").
 			MatchType("json").JSON(d.group).Reply(d.statusCode)
-		resp, err := client.CreateGroup(ctx, &d.group)
+		resp, err := client.CreateGroup(ctx, d.group)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -209,23 +227,36 @@ func Test_clientPutGroup(t *testing.T) {
 	data := []struct {
 		statusCode int
 		isError    bool
-		group      Group
+		id         string
+		group      *Group
 	}{
 		{
 			statusCode: 200,
 			isError:    false,
-			group:      Group{},
+			id:         dummyID,
+			group:      &Group{},
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         "",
+			group:      &Group{},
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         dummyID,
+			group:      nil,
 		},
 	}
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
-			Put(fmt.Sprintf("/scim/v1/Groups/%s", id)).
+			Put(fmt.Sprintf("/scim/v1/Groups/%s", dummyID)).
 			MatchType("json").JSON(d.group).Reply(d.statusCode)
-		resp, err := client.PutGroup(ctx, id, &d.group)
+		resp, err := client.PutGroup(ctx, d.id, d.group)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -242,23 +273,36 @@ func Test_clientPatchGroup(t *testing.T) {
 	data := []struct {
 		statusCode int
 		isError    bool
-		group      Group
+		id         string
+		group      *Group
 	}{
 		{
 			statusCode: 200,
 			isError:    false,
-			group:      Group{},
+			id:         dummyID,
+			group:      &Group{},
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         "",
+			group:      &Group{},
+		},
+		{
+			statusCode: 200,
+			isError:    true,
+			id:         dummyID,
+			group:      nil,
 		},
 	}
 
 	ctx := context.Background()
 	client := NewClient("XXX")
-	id := dummyID
 	for _, d := range data {
 		gock.New("https://api.slack.com").
-			Patch(fmt.Sprintf("/scim/v1/Groups/%s", id)).
+			Patch(fmt.Sprintf("/scim/v1/Groups/%s", dummyID)).
 			MatchType("json").JSON(d.group).Reply(d.statusCode)
-		resp, err := client.PatchGroup(ctx, id, &d.group)
+		resp, err := client.PatchGroup(ctx, d.id, d.group)
 		if d.isError {
 			require.NotNil(t, err)
 			return

@@ -1,6 +1,8 @@
 package scim
 
 import (
+	"bytes"
+	"io/ioutil"
 	"net/http"
 	"testing"
 
@@ -35,6 +37,39 @@ func TestIsErrorDefault(t *testing.T) {
 		} else {
 			require.False(t, IsErrorDefault(&http.Response{StatusCode: d.StatusCode}))
 		}
+	}
+}
+
+func TestParseErrorRespDefault(t *testing.T) {
+	data := []struct {
+		body    string
+		exp     *Error
+		isError bool
+	}{
+		{
+			body:    "",
+			exp:     nil,
+			isError: true,
+		},
+		{
+			body:    `{"Errors": {"description": "foo", "code": 401}}`,
+			exp:     &Error{Description: "foo", Code: 401},
+			isError: true,
+		},
+	}
+	for _, d := range data {
+		resp := &http.Response{
+			Body: ioutil.NopCloser(bytes.NewBufferString(d.body)),
+		}
+		if !d.isError {
+			require.Nil(t, ParseErrorRespDefault(resp))
+			continue
+		}
+		if d.exp == nil {
+			require.NotNil(t, ParseErrorRespDefault(resp))
+			continue
+		}
+		require.Equal(t, d.exp, ParseErrorRespDefault(resp))
 	}
 }
 
