@@ -1,6 +1,7 @@
 package scim
 
 type (
+	// UserPatch is a user patch for PATCH user API's request.
 	UserPatch struct {
 		ID                            string                              `json:"id,omitempty"`
 		UserName                      string                              `json:"userName,omitempty"`
@@ -27,6 +28,7 @@ type (
 		EnterpriseUserSchemaExtension *EnterpriseUserSchemaExtensionPatch `json:"urn:scim:schemas:extension:enterprise:1.0,omitempty"`
 	}
 
+	// EnterpriseUserSchemaExtensionPatch is a SCIM Enterprise User Schema Extension for PATH user API's request.
 	EnterpriseUserSchemaExtensionPatch struct {
 		EmployeeNumber *string  `json:"employeeNumber,omitempty"`
 		CostCenter     *string  `json:"costCenter,omitempty"`
@@ -36,6 +38,7 @@ type (
 		Manager        *Manager `json:"manager,omitempty"`
 	}
 
+	// NamePatch is a user name patch for PATCH user API's request.
 	NamePatch struct {
 		FamilyName      *string `json:"familyName,omitempty"`
 		GivenName       *string `json:"givenName,omitempty"`

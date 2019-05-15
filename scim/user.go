@@ -10,6 +10,7 @@ import (
 
 type (
 	// User is a user.
+	// https://api.slack.com/scim#users
 	User struct {
 		Active                        bool                           `json:"active,omitempty"`
 		ID                            string                         `json:"id,omitempty"`
@@ -97,6 +98,7 @@ type (
 		HonorificPrefix string `json:"honorificPrefix,omitempty"`
 	}
 
+	// Users is a response body of GET users API .
 	Users struct {
 		TotalResults int      `json:"totalResults"`
 		ItemPerPage  int      `json:"itemPerPage"`
@@ -112,6 +114,8 @@ type (
 )
 
 // GetUsersResp sends GET users API and returns an HTTP response.
+// If the returned error is nil, the returned response isn't nil and you have to close the response body.
+// Internally, this method returns the returned values of *http.Client.Do .
 func (c *client) GetUsersResp(ctx context.Context, page *Pagination, filter string) (*http.Response, error) {
 	// GET /Users
 	query := url.Values{}
@@ -123,6 +127,7 @@ func (c *client) GetUsersResp(ctx context.Context, page *Pagination, filter stri
 }
 
 // GetUsers sends GET users API and returns users.
+// The returned response body is closed.
 func (c *client) GetUsers(
 	ctx context.Context, page *Pagination, filter string,
 ) (*Users, *http.Response, error) {
@@ -137,6 +142,8 @@ func (c *client) GetUsers(
 }
 
 // GetUserResp sends GET a user API and returns an HTTP response.
+// If the returned error is nil, the returned response isn't nil and you have to close the response body.
+// Internally, this method returns the returned values of *http.Client.Do .
 func (c *client) GetUserResp(ctx context.Context, id string) (*http.Response, error) {
 	// GET /Users/{id}
 	if id == "" {
@@ -146,6 +153,7 @@ func (c *client) GetUserResp(ctx context.Context, id string) (*http.Response, er
 }
 
 // GetUser sends GET a user API and returns a user.
+// The returned response body is closed.
 func (c *client) GetUser(
 	ctx context.Context, id string,
 ) (*User, *http.Response, error) {
@@ -160,6 +168,8 @@ func (c *client) GetUser(
 }
 
 // CreateUserResp sends POST a user API and returns an HTTP response.
+// If the returned error is nil, the returned response isn't nil and you have to close the response body.
+// Internally, this method returns the returned values of *http.Client.Do .
 func (c *client) CreateUserResp(ctx context.Context, user *User) (*http.Response, error) {
 	// POST /Users
 	if user == nil {
@@ -169,6 +179,7 @@ func (c *client) CreateUserResp(ctx context.Context, user *User) (*http.Response
 }
 
 // CreateUser sends POST a user API.
+// The returned response body is closed.
 func (c *client) CreateUser(ctx context.Context, user *User) (*User, *http.Response, error) {
 	// POST /Users
 	resp, err := c.CreateUserResp(ctx, user)
@@ -181,6 +192,8 @@ func (c *client) CreateUser(ctx context.Context, user *User) (*User, *http.Respo
 }
 
 // PatchUserResp sends PATCH a user API and returns an HTTP response.
+// If the returned error is nil, the returned response isn't nil and you have to close the response body.
+// Internally, this method returns the returned values of *http.Client.Do .
 func (c *client) PatchUserResp(ctx context.Context, id string, user *UserPatch) (*http.Response, error) {
 	// PATCH /Users/{id}
 	if id == "" {
@@ -193,6 +206,7 @@ func (c *client) PatchUserResp(ctx context.Context, id string, user *UserPatch) 
 }
 
 // PatchUser sends PATCH a user API.
+// The returned response body is closed.
 func (c *client) PatchUser(ctx context.Context, id string, user *UserPatch) (*http.Response, error) {
 	// PATCH /Users/{id}
 	resp, err := c.PatchUserResp(ctx, id, user)
@@ -204,6 +218,8 @@ func (c *client) PatchUser(ctx context.Context, id string, user *UserPatch) (*ht
 }
 
 // PutUserResp sends PUT a user API and returns an HTTP response.
+// If the returned error is nil, the returned response isn't nil and you have to close the response body.
+// Internally, this method returns the returned values of *http.Client.Do .
 func (c *client) PutUserResp(ctx context.Context, id string, user *User) (*http.Response, error) {
 	// PUT /Users/{id}
 	if id == "" {
@@ -216,6 +232,7 @@ func (c *client) PutUserResp(ctx context.Context, id string, user *User) (*http.
 }
 
 // PutUser sends PUT a user API.
+// The returned response body is closed.
 func (c *client) PutUser(ctx context.Context, id string, user *User) (*http.Response, error) {
 	// PUT /Users/{id}
 	resp, err := c.PutUserResp(ctx, id, user)
@@ -227,6 +244,8 @@ func (c *client) PutUser(ctx context.Context, id string, user *User) (*http.Resp
 }
 
 // DeleteUserResp sends DELETE a user API and returns an HTTP response.
+// If the returned error is nil, the returned response isn't nil and you have to close the response body.
+// Internally, this method returns the returned values of *http.Client.Do .
 func (c *client) DeleteUserResp(ctx context.Context, id string) (*http.Response, error) {
 	// DELETE /Users/{id}
 	if id == "" {
@@ -236,6 +255,7 @@ func (c *client) DeleteUserResp(ctx context.Context, id string) (*http.Response,
 }
 
 // DeleteUser sends DELETE a user API.
+// The returned response body is closed.
 func (c *client) DeleteUser(ctx context.Context, id string) (*http.Response, error) {
 	// DELETE /Users/{id}
 	resp, err := c.DeleteUserResp(ctx, id)
@@ -246,6 +266,7 @@ func (c *client) DeleteUser(ctx context.Context, id string) (*http.Response, err
 	return resp, c.parseResponse(resp, nil)
 }
 
+// UnmarshalJSON implements json.Unmarshaler .
 func (user *User) UnmarshalJSON(b []byte) error {
 	type alias User
 	a := struct {
@@ -276,6 +297,7 @@ func (user *User) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// MarshalJSON implements json.Marshaler .
 func (user *User) MarshalJSON() ([]byte, error) {
 	list := make([]userGroup, len(user.Groups))
 	for i, group := range user.Groups {

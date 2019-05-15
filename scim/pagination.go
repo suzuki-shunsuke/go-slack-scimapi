@@ -6,6 +6,7 @@ import (
 )
 
 type (
+	// Pagination is a pagination parameter.
 	Pagination struct {
 		Count      int
 		StartIndex int
