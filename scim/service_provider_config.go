@@ -76,7 +76,7 @@ type (
 	}
 )
 
-// GetServiceProviderConfig sends GET ServiceProviderConfig API and returns ServiceProviderConfig .
+// GetServiceProviderConfig calls GET /ServiceProviderConfigs API and returns service provider configuration.
 // The returned response body is closed.
 func (c *Client) GetServiceProviderConfig(ctx context.Context) (*ServiceProviderConfig, *http.Response, error) {
 	// GET /ServiceProviderConfigs
@@ -89,7 +89,7 @@ func (c *Client) GetServiceProviderConfig(ctx context.Context) (*ServiceProvider
 	return cfg, resp, c.parseResponse(resp, cfg)
 }
 
-// GetServiceProviderConfigResp sends GET service provider configuration API and returns an HTTP response.
+// GetServiceProviderConfigResp calls GET /ServiceProviderConfigs API and returns a HTTP response.
 // Internally, this method returns the returned values of *http.Client.Do .
 func (c *Client) GetServiceProviderConfigResp(ctx context.Context) (*http.Response, error) {
 	// GET /ServiceProviderConfigs

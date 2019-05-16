@@ -34,7 +34,7 @@ type (
 	}
 )
 
-// GetGroupsResp sends GET groups API and returns a HTTP response.
+// GetGroupsResp calls GET /Groups API and returns a HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
 func (c *Client) GetGroupsResp(ctx context.Context, page *Pagination, filter string) (*http.Response, error) {
@@ -47,7 +47,7 @@ func (c *Client) GetGroupsResp(ctx context.Context, page *Pagination, filter str
 	return c.getResp(ctx, "GET", "/Groups", nil, query)
 }
 
-// GetGroups sends GET groups API and returns groups.
+// GetGroups calls GET /Groups API and returns groups.
 // The returned response body is closed.
 func (c *Client) GetGroups(
 	ctx context.Context, page *Pagination, filter string,
@@ -62,7 +62,7 @@ func (c *Client) GetGroups(
 	return groups, resp, c.parseResponse(resp, groups)
 }
 
-// GetGroupResp sends GET a group API and returns an HTTP response.
+// GetGroupResp calls GET /Groups/{id} API and returns a HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
 func (c *Client) GetGroupResp(ctx context.Context, id string) (*http.Response, error) {
@@ -73,7 +73,7 @@ func (c *Client) GetGroupResp(ctx context.Context, id string) (*http.Response, e
 	return c.getResp(ctx, "GET", fmt.Sprintf("/Groups/%s", id), nil, nil)
 }
 
-// GetGroup sends GET a group API and returns a group.
+// GetGroup calls GET /Groups/{id} API and returns a group.
 // The returned response body is closed.
 func (c *Client) GetGroup(
 	ctx context.Context, id string,
@@ -88,7 +88,7 @@ func (c *Client) GetGroup(
 	return group, resp, c.parseResponse(resp, group)
 }
 
-// CreateGroupResp sends POST a group API and returns an HTTP response.
+// CreateGroupResp calls POST /Groups API and returns a HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
 func (c *Client) CreateGroupResp(ctx context.Context, group *Group) (*http.Response, error) {
@@ -99,7 +99,7 @@ func (c *Client) CreateGroupResp(ctx context.Context, group *Group) (*http.Respo
 	return c.getResp(ctx, "POST", "/Groups", group, nil)
 }
 
-// CreateGroup sends POST a group API.
+// CreateGroup calls POST /Groups API and returns a created group.
 // The returned response body is closed.
 func (c *Client) CreateGroup(ctx context.Context, group *Group) (*Group, *http.Response, error) {
 	// POST /Groups
@@ -112,7 +112,7 @@ func (c *Client) CreateGroup(ctx context.Context, group *Group) (*Group, *http.R
 	return g, resp, c.parseResponse(resp, g)
 }
 
-// PatchGroupResp sends PATCH a group API and returns an HTTP response.
+// PatchGroupResp calls PATCH /Groups/{id} API and returns a HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
 func (c *Client) PatchGroupResp(ctx context.Context, id string, group *Group) (*http.Response, error) {
@@ -126,7 +126,7 @@ func (c *Client) PatchGroupResp(ctx context.Context, id string, group *Group) (*
 	return c.getResp(ctx, "PATCH", fmt.Sprintf("/Groups/%s", id), group, nil)
 }
 
-// PatchGroup sends PATCH a group API.
+// PatchGroup calls PATCH /Groups/{id} API.
 // The returned response body is closed.
 func (c *Client) PatchGroup(ctx context.Context, id string, group *Group) (*http.Response, error) {
 	// PATCH /Groups/{id}
@@ -138,7 +138,7 @@ func (c *Client) PatchGroup(ctx context.Context, id string, group *Group) (*http
 	return resp, c.parseResponse(resp, nil)
 }
 
-// PutGroupResp sends PUT a group API and returns an HTTP response.
+// PutGroupResp calls PUT /Groups/{id} API and returns a HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
 func (c *Client) PutGroupResp(ctx context.Context, id string, group *Group) (*http.Response, error) {
@@ -152,7 +152,7 @@ func (c *Client) PutGroupResp(ctx context.Context, id string, group *Group) (*ht
 	return c.getResp(ctx, "PUT", fmt.Sprintf("/Groups/%s", id), group, nil)
 }
 
-// PutGroup sends PUT a group API.
+// PutGroup calls PUT /Groups/{id} API and returns a updated group.
 // The returned response body is closed.
 func (c *Client) PutGroup(ctx context.Context, id string, group *Group) (*Group, *http.Response, error) {
 	// PUT /Groups/{id}
@@ -165,7 +165,7 @@ func (c *Client) PutGroup(ctx context.Context, id string, group *Group) (*Group,
 	return g, resp, c.parseResponse(resp, g)
 }
 
-// DeleteGroupResp sends DELETE a group API and returns an HTTP response.
+// DeleteGroupResp calls DELETE /Groups/{id} API and returns a HTTP response.
 // If the returned error is nil, the returned response isn't nil and you have to close the response body.
 // Internally, this method returns the returned values of *http.Client.Do .
 func (c *Client) DeleteGroupResp(ctx context.Context, id string) (*http.Response, error) {
@@ -176,7 +176,7 @@ func (c *Client) DeleteGroupResp(ctx context.Context, id string) (*http.Response
 	return c.getResp(ctx, "DELETE", fmt.Sprintf("/Groups/%s", id), nil, nil)
 }
 
-// DeleteGroup sends DELETE a group API.
+// DeleteGroup calls DELETE /Groups/{id} API.
 // The returned response body is closed.
 func (c *Client) DeleteGroup(ctx context.Context, id string) (*http.Response, error) {
 	// DELETE /Groups/{id}

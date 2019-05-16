@@ -33,7 +33,7 @@ type (
 )
 
 var (
-	// DefaultEndpoint is a default Slack SCIM API endpoint.
+	// DefaultEndpoint is the default Slack SCIM API endpoint.
 	DefaultEndpoint = "https://api.slack.com/scim/v1"
 )
 
