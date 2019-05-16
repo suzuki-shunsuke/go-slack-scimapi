@@ -207,14 +207,15 @@ func (c *Client) PatchUserResp(ctx context.Context, id string, user *UserPatch) 
 
 // PatchUser sends PATCH a user API.
 // The returned response body is closed.
-func (c *Client) PatchUser(ctx context.Context, id string, user *UserPatch) (*http.Response, error) {
+func (c *Client) PatchUser(ctx context.Context, id string, user *UserPatch) (*User, *http.Response, error) {
 	// PATCH /Users/{id}
 	resp, err := c.PatchUserResp(ctx, id, user)
 	if err != nil {
-		return resp, err
+		return nil, resp, err
 	}
 	defer resp.Body.Close()
-	return resp, c.parseResponse(resp, nil)
+	u := &User{}
+	return u, resp, c.parseResponse(resp, u)
 }
 
 // PutUserResp sends PUT a user API and returns an HTTP response.

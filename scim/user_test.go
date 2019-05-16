@@ -384,12 +384,14 @@ func TestClientPatchUser(t *testing.T) {
 		isError    bool
 		id         string
 		user       *UserPatch
+		resp       *User
 	}{
 		{
 			statusCode: 200,
 			isError:    false,
 			id:         dummyID,
 			user:       &UserPatch{},
+			resp:       &testUser,
 		},
 		{
 			statusCode: 200,
@@ -410,8 +412,8 @@ func TestClientPatchUser(t *testing.T) {
 	for _, d := range data {
 		gock.New("https://api.slack.com").
 			Patch(fmt.Sprintf("/scim/v1/Users/%s", dummyID)).
-			MatchType("json").JSON(d.user).Reply(d.statusCode)
-		resp, err := client.PatchUser(ctx, d.id, d.user)
+			MatchType("json").JSON(d.user).Reply(d.statusCode).JSON(d.resp)
+		user, resp, err := client.PatchUser(ctx, d.id, d.user)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -419,6 +421,9 @@ func TestClientPatchUser(t *testing.T) {
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, d.statusCode, resp.StatusCode)
+		if d.resp != nil {
+			require.Equal(t, d.resp, user)
+		}
 	}
 }
 
