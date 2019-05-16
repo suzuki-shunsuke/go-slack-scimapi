@@ -191,11 +191,13 @@ func TestClientCreateGroup(t *testing.T) {
 		statusCode int
 		isError    bool
 		group      *Group
+		resp       *Group
 	}{
 		{
 			statusCode: 201,
 			isError:    false,
 			group:      &Group{},
+			resp:       &Group{},
 		},
 		{
 			statusCode: 201,
@@ -209,8 +211,8 @@ func TestClientCreateGroup(t *testing.T) {
 	for _, d := range data {
 		gock.New("https://api.slack.com").
 			Post("/scim/v1/Groups").
-			MatchType("json").JSON(d.group).Reply(d.statusCode)
-		resp, err := client.CreateGroup(ctx, d.group)
+			MatchType("json").JSON(d.group).Reply(d.statusCode).JSON(d.resp)
+		group, resp, err := client.CreateGroup(ctx, d.group)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -218,6 +220,9 @@ func TestClientCreateGroup(t *testing.T) {
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, d.statusCode, resp.StatusCode)
+		if d.resp != nil {
+			require.Equal(t, d.resp, group)
+		}
 	}
 }
 
@@ -229,12 +234,14 @@ func TestClientPutGroup(t *testing.T) {
 		isError    bool
 		id         string
 		group      *Group
+		resp       *Group
 	}{
 		{
 			statusCode: 200,
 			isError:    false,
 			id:         dummyID,
 			group:      &Group{},
+			resp:       &Group{},
 		},
 		{
 			statusCode: 200,
@@ -255,8 +262,8 @@ func TestClientPutGroup(t *testing.T) {
 	for _, d := range data {
 		gock.New("https://api.slack.com").
 			Put(fmt.Sprintf("/scim/v1/Groups/%s", dummyID)).
-			MatchType("json").JSON(d.group).Reply(d.statusCode)
-		resp, err := client.PutGroup(ctx, d.id, d.group)
+			MatchType("json").JSON(d.group).Reply(d.statusCode).JSON(d.resp)
+		group, resp, err := client.PutGroup(ctx, d.id, d.group)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -264,6 +271,9 @@ func TestClientPutGroup(t *testing.T) {
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, d.statusCode, resp.StatusCode)
+		if d.resp != nil {
+			require.Equal(t, d.resp, group)
+		}
 	}
 }
 

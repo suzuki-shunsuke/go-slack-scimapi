@@ -101,14 +101,15 @@ func (c *Client) CreateGroupResp(ctx context.Context, group *Group) (*http.Respo
 
 // CreateGroup sends POST a group API.
 // The returned response body is closed.
-func (c *Client) CreateGroup(ctx context.Context, group *Group) (*http.Response, error) {
+func (c *Client) CreateGroup(ctx context.Context, group *Group) (*Group, *http.Response, error) {
 	// POST /Groups
 	resp, err := c.CreateGroupResp(ctx, group)
 	if err != nil {
-		return resp, err
+		return nil, resp, err
 	}
 	defer resp.Body.Close()
-	return resp, c.parseResponse(resp, nil)
+	g := &Group{}
+	return g, resp, c.parseResponse(resp, g)
 }
 
 // PatchGroupResp sends PATCH a group API and returns an HTTP response.
@@ -153,14 +154,15 @@ func (c *Client) PutGroupResp(ctx context.Context, id string, group *Group) (*ht
 
 // PutGroup sends PUT a group API.
 // The returned response body is closed.
-func (c *Client) PutGroup(ctx context.Context, id string, group *Group) (*http.Response, error) {
+func (c *Client) PutGroup(ctx context.Context, id string, group *Group) (*Group, *http.Response, error) {
 	// PUT /Groups/{id}
 	resp, err := c.PutGroupResp(ctx, id, group)
 	if err != nil {
-		return resp, err
+		return nil, resp, err
 	}
 	defer resp.Body.Close()
-	return resp, c.parseResponse(resp, nil)
+	g := &Group{}
+	return g, resp, c.parseResponse(resp, g)
 }
 
 // DeleteGroupResp sends DELETE a group API and returns an HTTP response.
