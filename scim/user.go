@@ -233,14 +233,15 @@ func (c *Client) PutUserResp(ctx context.Context, id string, user *User) (*http.
 
 // PutUser sends PUT a user API.
 // The returned response body is closed.
-func (c *Client) PutUser(ctx context.Context, id string, user *User) (*http.Response, error) {
+func (c *Client) PutUser(ctx context.Context, id string, user *User) (*User, *http.Response, error) {
 	// PUT /Users/{id}
 	resp, err := c.PutUserResp(ctx, id, user)
 	if err != nil {
-		return resp, err
+		return nil, resp, err
 	}
 	defer resp.Body.Close()
-	return resp, c.parseResponse(resp, nil)
+	u := &User{}
+	return u, resp, c.parseResponse(resp, u)
 }
 
 // DeleteUserResp sends DELETE a user API and returns an HTTP response.

@@ -333,12 +333,14 @@ func TestClientPutUser(t *testing.T) {
 		isError    bool
 		id         string
 		user       *User
+		resp       *User
 	}{
 		{
 			statusCode: 200,
 			isError:    false,
 			id:         dummyID,
-			user:       &User{},
+			user:       &testUser,
+			resp:       &testUser,
 		},
 		{
 			statusCode: 200,
@@ -359,8 +361,8 @@ func TestClientPutUser(t *testing.T) {
 	for _, d := range data {
 		gock.New("https://api.slack.com").
 			Put(fmt.Sprintf("/scim/v1/Users/%s", dummyID)).
-			MatchType("json").JSON(d.user).Reply(d.statusCode)
-		resp, err := client.PutUser(ctx, d.id, d.user)
+			MatchType("json").JSON(d.user).Reply(d.statusCode).JSON(d.resp)
+		user, resp, err := client.PutUser(ctx, d.id, d.user)
 		if d.isError {
 			require.NotNil(t, err)
 			return
@@ -368,6 +370,9 @@ func TestClientPutUser(t *testing.T) {
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		require.Equal(t, d.statusCode, resp.StatusCode)
+		if d.resp != nil {
+			require.Equal(t, d.resp, user)
+		}
 	}
 }
 
