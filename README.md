@@ -5,6 +5,7 @@
 [![codecov](https://codecov.io/gh/suzuki-shunsuke/go-slack-scimapi/branch/master/graph/badge.svg)](https://codecov.io/gh/suzuki-shunsuke/go-slack-scimapi)
 [![Go Report Card](https://goreportcard.com/badge/github.com/suzuki-shunsuke/go-slack-scimapi)](https://goreportcard.com/report/github.com/suzuki-shunsuke/go-slack-scimapi)
 [![GitHub last commit](https://img.shields.io/github/last-commit/suzuki-shunsuke/go-slack-scimapi.svg)](https://github.com/suzuki-shunsuke/go-slack-scimapi)
+[![GitHub tag](https://img.shields.io/github/tag/suzuki-shunsuke/go-slack-scimapi.svg)](https://github.com/suzuki-shunsuke/go-slack-scimapi/releases)
 [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/suzuki-shunsuke/go-slack-scimapi/master/LICENSE)
 
 Slack SCIM API client for Golang
