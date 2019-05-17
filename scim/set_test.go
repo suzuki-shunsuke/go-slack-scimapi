@@ -1,0 +1,58 @@
+package scim
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/require"
+)
+
+func TestClientSetNewHTTPClient(t *testing.T) {
+	c := &Client{}
+
+	c.SetNewHTTPClient(nil)
+	require.NotNil(t, c.newHTTPClient)
+
+	c.SetNewHTTPClient(NewHTTPClientDefault)
+	require.NotNil(t, c.newHTTPClient)
+}
+
+func TestClientSetParseResp(t *testing.T) {
+	c := &Client{}
+
+	c.SetParseResp(nil)
+	require.NotNil(t, c.parseResp)
+
+	c.SetParseResp(ParseRespDefault)
+	require.NotNil(t, c.parseResp)
+}
+
+func TestClientSetParseErrorResp(t *testing.T) {
+	c := &Client{}
+
+	c.SetParseErrorResp(nil)
+	require.NotNil(t, c.parseErrorResp)
+
+	c.SetParseErrorResp(ParseErrorRespDefault)
+	require.NotNil(t, c.parseErrorResp)
+}
+
+func TestClientSetIsError(t *testing.T) {
+	c := &Client{}
+
+	c.SetIsError(nil)
+	require.NotNil(t, c.isError)
+
+	c.SetIsError(IsErrorDefault)
+	require.NotNil(t, c.isError)
+}
+
+func TestClientSetEndpoint(t *testing.T) {
+	c := &Client{}
+
+	c.SetEndpoint("")
+	require.Equal(t, DefaultEndpoint, c.endpoint)
+
+	ep := "https://example.com"
+	c.SetEndpoint(ep)
+	require.Equal(t, ep, c.endpoint)
+}
