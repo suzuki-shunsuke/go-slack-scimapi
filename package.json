@@ -6,6 +6,7 @@
     "fmt": "bash scripts/fmt.sh",
     "vet": "go vet ./...",
     "lint": "golangci-lint run",
+    "durl": "bash scripts/durl.sh",
     "c": "bash scripts/coverage.sh"
   },
   "devDependencies": {
