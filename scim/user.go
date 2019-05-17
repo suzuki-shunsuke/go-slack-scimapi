@@ -178,7 +178,7 @@ func (c *Client) CreateUserResp(ctx context.Context, user *User) (*http.Response
 	return c.getResp(ctx, "POST", "/Users", user, nil)
 }
 
-// CreateGroup calls POST /Users API and returns a created user.
+// CreateUser calls POST /Users API and returns a created user.
 // The returned response body is closed.
 func (c *Client) CreateUser(ctx context.Context, user *User) (*User, *http.Response, error) {
 	// POST /Users

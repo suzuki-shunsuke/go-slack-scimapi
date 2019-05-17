@@ -5,6 +5,8 @@ import (
 )
 
 type (
+	// Schema is a schema.
+	// Slack currently supports schemas for users and groups.
 	Schema struct {
 		ID          string      `json:"id"`
 		Name        string      `json:"name"`
@@ -14,6 +16,7 @@ type (
 		Attributes  []Attribute `json:"attributes"`
 	}
 
+	// Attribute specifies the set of Resource attributes.
 	Attribute struct {
 		MultiValued                   bool        `json:"multiValued"`
 		ReadOnly                      bool        `json:"readOnly"`
@@ -28,6 +31,7 @@ type (
 		CanonicalValues               []string    `json:"canonicalValues,omitempty"`
 	}
 
+	// Meta is containing resource metadata.
 	Meta struct {
 		Created      string   `json:"created"`
 		LastModified string   `json:"lastModified"`
@@ -37,6 +41,7 @@ type (
 	}
 )
 
+// UnmarshalJSON implements json.Unmarshaler .
 func (schema *Schema) UnmarshalJSON(b []byte) error {
 	type alias Schema
 	a := struct {
@@ -66,6 +71,7 @@ func (schema *Schema) UnmarshalJSON(b []byte) error {
 	return err
 }
 
+// UnmarshalJSON implements json.Unmarshaler .
 func (attr *Attribute) UnmarshalJSON(b []byte) error {
 	type alias Attribute
 	a := struct {

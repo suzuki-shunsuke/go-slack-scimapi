@@ -21,6 +21,10 @@ steps:
   when:
     event:
     - pull_request
+- name: durl
+  image: quay.io/suzuki_shunsuke/durl:0.8.0
+  commands:
+    - sh scripts/durl.sh
 ---
 kind: pipeline
 name: build
