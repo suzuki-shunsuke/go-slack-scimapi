@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestSchemaUnmarshalJSON(t *testing.T) {
+func TestSchema_UnmarshalJSON(t *testing.T) {
 	data := []struct {
 		body    string
 		isError bool
@@ -41,7 +41,7 @@ func TestSchemaUnmarshalJSON(t *testing.T) {
 	}
 }
 
-func TestAttributeUnmarshalJSON(t *testing.T) {
+func TestAttribute_UnmarshalJSON(t *testing.T) {
 	data := []struct {
 		body    string
 		isError bool

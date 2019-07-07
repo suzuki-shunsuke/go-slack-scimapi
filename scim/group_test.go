@@ -53,7 +53,7 @@ var (
 }`
 )
 
-func TestClientGetGroups(t *testing.T) {
+func TestClient_GetGroups(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -100,7 +100,7 @@ func TestClientGetGroups(t *testing.T) {
 	}
 }
 
-func TestClientGetGroup(t *testing.T) {
+func TestClient_GetGroup(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -147,7 +147,7 @@ func TestClientGetGroup(t *testing.T) {
 	}
 }
 
-func TestClientDeleteGroup(t *testing.T) {
+func TestClient_DeleteGroup(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -184,7 +184,7 @@ func TestClientDeleteGroup(t *testing.T) {
 	}
 }
 
-func TestClientCreateGroup(t *testing.T) {
+func TestClient_CreateGroup(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -226,7 +226,7 @@ func TestClientCreateGroup(t *testing.T) {
 	}
 }
 
-func TestClientPutGroup(t *testing.T) {
+func TestClient_PutGroup(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -277,7 +277,7 @@ func TestClientPutGroup(t *testing.T) {
 	}
 }
 
-func TestClientPatchGroup(t *testing.T) {
+func TestClient_PatchGroup(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {

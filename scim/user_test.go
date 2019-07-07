@@ -187,7 +187,7 @@ var (
 }`
 )
 
-func TestClientGetUsers(t *testing.T) {
+func TestClient_GetUsers(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -234,7 +234,7 @@ func TestClientGetUsers(t *testing.T) {
 	}
 }
 
-func TestClientGetUser(t *testing.T) {
+func TestClient_GetUser(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -282,7 +282,7 @@ func TestClientGetUser(t *testing.T) {
 	}
 }
 
-func TestClientCreateUser(t *testing.T) {
+func TestClient_CreateUser(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -325,7 +325,7 @@ func TestClientCreateUser(t *testing.T) {
 	}
 }
 
-func TestClientPutUser(t *testing.T) {
+func TestClient_PutUser(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -376,7 +376,7 @@ func TestClientPutUser(t *testing.T) {
 	}
 }
 
-func TestClientPatchUser(t *testing.T) {
+func TestClient_PatchUser(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
@@ -427,7 +427,7 @@ func TestClientPatchUser(t *testing.T) {
 	}
 }
 
-func TestClientDeleteUser(t *testing.T) {
+func TestClient_DeleteUser(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {

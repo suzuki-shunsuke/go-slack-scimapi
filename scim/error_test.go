@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestErrorError(t *testing.T) {
+func TestError_Error(t *testing.T) {
 	e := Error{
 		Description: "hello",
 		Code:        401,

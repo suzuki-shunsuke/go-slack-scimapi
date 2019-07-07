@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_clientGetUserSchema(t *testing.T) {
+func TestClient_GetUserSchema(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {
