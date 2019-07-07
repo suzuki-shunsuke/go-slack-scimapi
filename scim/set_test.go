@@ -1,19 +1,25 @@
 package scim
 
 import (
+	"net/http"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 )
 
-func TestClientSetNewHTTPClient(t *testing.T) {
+func TestClient_SetHTTPClient(t *testing.T) {
 	c := &Client{}
 
-	c.SetNewHTTPClient(nil)
-	require.NotNil(t, c.newHTTPClient)
+	c.SetHTTPClient(nil)
+	require.Equal(t, http.DefaultClient, c.httpClient)
 
-	c.SetNewHTTPClient(NewHTTPClientDefault)
-	require.NotNil(t, c.newHTTPClient)
+	c.SetHTTPClient(&http.Client{
+		Timeout: 10 * time.Second,
+	})
+	require.Equal(t, &http.Client{
+		Timeout: 10 * time.Second,
+	}, c.httpClient)
 }
 
 func TestClientSetParseResp(t *testing.T) {

@@ -1,13 +1,17 @@
 package scim
 
-// SetNewHTTPClient sets fn to c.
-// If fn is nil, NewHTTPClientDefault is used.
-func (c *Client) SetNewHTTPClient(fn NewHTTPClient) {
-	if fn == nil {
-		c.newHTTPClient = NewHTTPClientDefault
+import (
+	"net/http"
+)
+
+// SetHTTPClient sets the *http.Client to c.
+// If client is nil, http.DefaultClient is set.
+func (c *Client) SetHTTPClient(client *http.Client) {
+	if client == nil {
+		c.httpClient = http.DefaultClient
 		return
 	}
-	c.newHTTPClient = fn
+	c.httpClient = client
 }
 
 // SetParseResp sets fn to c.

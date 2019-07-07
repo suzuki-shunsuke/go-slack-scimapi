@@ -72,9 +72,3 @@ func TestParseErrorRespDefault(t *testing.T) {
 		require.Equal(t, d.exp, ParseErrorRespDefault(resp))
 	}
 }
-
-func TestNewHTTPClientDefault(t *testing.T) {
-	c, err := NewHTTPClientDefault()
-	require.NotNil(t, c)
-	require.Nil(t, err)
-}

@@ -28,8 +28,3 @@ func ParseErrorRespDefault(resp *http.Response) error {
 	}
 	return a.Errors
 }
-
-// NewHTTPClientDefault is the default function for client to create new HTTP client internally.
-func NewHTTPClientDefault() (*http.Client, error) {
-	return &http.Client{}, nil
-}
