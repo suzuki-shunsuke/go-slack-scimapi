@@ -1,24 +1,28 @@
 package scim
 
+import (
+	"net/http"
+)
+
 func (c *Client) copy() *Client {
 	return &Client{
 		endpoint:       c.endpoint,
 		token:          c.token,
-		newHTTPClient:  c.newHTTPClient,
+		httpClient:     c.httpClient,
 		isError:        c.isError,
 		parseResp:      c.parseResp,
 		parseErrorResp: c.parseErrorResp,
 	}
 }
 
-// WithNewHTTPClient returns a shallow copy of c with its nweHTTPClient changed to fn.
-// If fn is nil, NewHTTPClientDefault is used.
-func (c *Client) WithNewHTTPClient(fn NewHTTPClient) *Client {
-	if fn == nil {
-		fn = NewHTTPClientDefault
-	}
+// WithHTTPClient returns a shallow copy of c with its httpClient changed to client.
+// If client is nil, http.DefaultClient is used.
+func (c *Client) WithHTTPClient(client *http.Client) *Client {
 	cl := c.copy()
-	cl.newHTTPClient = fn
+	if client == nil {
+		client = http.DefaultClient
+	}
+	cl.httpClient = client
 	return cl
 }
 

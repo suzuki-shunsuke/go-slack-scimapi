@@ -16,14 +16,12 @@ type (
 	Client struct {
 		endpoint       string
 		token          string
-		newHTTPClient  NewHTTPClient
+		httpClient     *http.Client
 		isError        IsError
 		parseResp      ParseResp
 		parseErrorResp ParseErrorResp
 	}
 
-	// NewHTTPClient returns a new http.Client .
-	NewHTTPClient func() (*http.Client, error)
 	// ParseResp parses a succeeded API response.
 	ParseResp func(resp *http.Response, output interface{}) error
 	// ParseErrorResp parses an API error response.
@@ -42,7 +40,7 @@ func NewClient(token string) *Client {
 	return &Client{
 		token:          token,
 		endpoint:       DefaultEndpoint,
-		newHTTPClient:  NewHTTPClientDefault,
+		httpClient:     http.DefaultClient,
 		isError:        IsErrorDefault,
 		parseResp:      ParseRespDefault,
 		parseErrorResp: ParseErrorRespDefault,
@@ -75,11 +73,7 @@ func (c *Client) getResp(
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token))
 	req.Header.Add("Content-Type", "application/json")
 	req = req.WithContext(ctx)
-	client, err := c.newHTTPClient()
-	if err != nil {
-		return nil, err
-	}
-	return client.Do(req)
+	return c.httpClient.Do(req)
 }
 
 func (c *Client) parseResponse(
