@@ -37,7 +37,7 @@ func TestClient_WithHTTPClient(t *testing.T) {
 	}, c3.httpClient)
 }
 
-func TestClientWithParseResp(t *testing.T) {
+func TestClient_WithParseResp(t *testing.T) {
 	c := &Client{}
 
 	c2 := c.WithParseResp(nil)
@@ -45,7 +45,7 @@ func TestClientWithParseResp(t *testing.T) {
 	require.NotNil(t, c2.parseResp)
 }
 
-func TestClientWithParseErrorResp(t *testing.T) {
+func TestClient_WithParseErrorResp(t *testing.T) {
 	c := &Client{}
 
 	c2 := c.WithParseErrorResp(nil)
@@ -53,7 +53,7 @@ func TestClientWithParseErrorResp(t *testing.T) {
 	require.NotNil(t, c2.parseErrorResp)
 }
 
-func TestClientWithIsError(t *testing.T) {
+func TestClient_WithIsError(t *testing.T) {
 	c := &Client{}
 
 	c2 := c.WithIsError(nil)
@@ -61,7 +61,7 @@ func TestClientWithIsError(t *testing.T) {
 	require.NotNil(t, c2.isError)
 }
 
-func TestClientWithEndpoint(t *testing.T) {
+func TestClient_WithEndpoint(t *testing.T) {
 	c := &Client{}
 
 	ep := "endpoint"

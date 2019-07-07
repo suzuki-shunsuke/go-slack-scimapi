@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestClientGetServiceProviderConfig(t *testing.T) {
+func TestClient_GetServiceProviderConfig(t *testing.T) {
 	defer gock.Off()
 
 	data := []struct {

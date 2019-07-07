@@ -22,7 +22,7 @@ func TestClient_SetHTTPClient(t *testing.T) {
 	}, c.httpClient)
 }
 
-func TestClientSetParseResp(t *testing.T) {
+func TestClient_SetParseResp(t *testing.T) {
 	c := &Client{}
 
 	c.SetParseResp(nil)
@@ -32,7 +32,7 @@ func TestClientSetParseResp(t *testing.T) {
 	require.NotNil(t, c.parseResp)
 }
 
-func TestClientSetParseErrorResp(t *testing.T) {
+func TestClient_SetParseErrorResp(t *testing.T) {
 	c := &Client{}
 
 	c.SetParseErrorResp(nil)
@@ -42,7 +42,7 @@ func TestClientSetParseErrorResp(t *testing.T) {
 	require.NotNil(t, c.parseErrorResp)
 }
 
-func TestClientSetIsError(t *testing.T) {
+func TestClient_SetIsError(t *testing.T) {
 	c := &Client{}
 
 	c.SetIsError(nil)
@@ -52,7 +52,7 @@ func TestClientSetIsError(t *testing.T) {
 	require.NotNil(t, c.isError)
 }
 
-func TestClientSetEndpoint(t *testing.T) {
+func TestClient_SetEndpoint(t *testing.T) {
 	c := &Client{}
 
 	c.SetEndpoint("")
