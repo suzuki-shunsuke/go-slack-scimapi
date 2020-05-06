@@ -36,7 +36,7 @@ steps:
   environment:
     GO111MODULE: on
 - name: codecov
-  image: &image_go golang:1.12.6
+  image: golang:1.14.2
   commands:
   # bash and cgo seem to be required
   - bash scripts/codecov-test.sh
