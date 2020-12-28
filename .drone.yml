@@ -30,7 +30,7 @@ kind: pipeline
 name: build
 steps:
 - name: golangci-lint
-  image: golangci/golangci-lint:v1.33.0
+  image: golangci/golangci-lint:v1.33.1
   commands:
   - golangci-lint run
   environment:
