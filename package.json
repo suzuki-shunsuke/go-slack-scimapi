@@ -10,7 +10,7 @@
     "c": "bash scripts/coverage.sh"
   },
   "devDependencies": {
-    "@commitlint/cli": "8.3.5",
+    "@commitlint/cli": "12.1.4",
     "@commitlint/config-angular": "8.3.4",
     "husky": "4.2.5"
   }
