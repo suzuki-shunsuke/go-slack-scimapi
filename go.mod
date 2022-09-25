@@ -1,6 +1,6 @@
 module github.com/suzuki-shunsuke/go-slack-scimapi
 
-go 1.14
+go 1.19
 
 require (
 	github.com/stretchr/testify v1.7.0
